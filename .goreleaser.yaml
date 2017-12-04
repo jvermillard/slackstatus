@@ -1,7 +1,7 @@
 # .goreleaser.yml
 # Build customization
 builds:
-  - binary: drum-roll
+  - binary: slackstatus
     goos:
       - windows
       - darwin
