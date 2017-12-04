@@ -16,9 +16,9 @@ You also need a CSV file listing your known WiFi network names or the known outg
 
 For examples:
 ```
-vrmvrm,remote,:house_with_garden:
+homewifi,remote,:house_with_garden:
 daofficewifi,,
-coprwifi,office,:office:
+corpwifi,office,:office:
 85.13.160.132,Office,:office:
 ```
 `slackstatus` will look for the WiFi SSID names, then look for the exit IP (using http://ip-api.com).
