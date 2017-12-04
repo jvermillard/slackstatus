@@ -12,6 +12,8 @@ import (
 	"net/url"
 	"os"
 	"os/exec"
+	"regexp"
+	"runtime"
 	"strings"
 )
 
@@ -83,18 +85,35 @@ func main() {
 	}
 
 	fmt.Println("check SSID")
-	cmd := exec.Command("iwgetid", "-r")
-	out, err := cmd.Output()
-	if err != nil {
-		if exerr, ok := err.(*exec.ExitError); ok {
-			fmt.Println("no wifi", exerr)
-			out = make([]byte, 0)
-		} else {
-			log.Fatal("You must install `iwgetid`", err)
+
+	var ssid string
+	if runtime.GOOS == "darwin" {
+		cmd := exec.Command("/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport", "-I")
+		out, err := cmd.Output()
+		if err != nil {
+			if exerr, ok := err.(*exec.ExitError); ok {
+				fmt.Println("no wifi", exerr)
+				out = make([]byte, 0)
+			} else {
+				log.Fatal(err)
+			}
 		}
+		r, _ := regexp.Compile(" SSID: [a-zA-Z0-9-_]+")
+		ssid = r.FindString(string(out))[7:]
+	} else {
+		cmd := exec.Command("iwgetid", "-r")
+		out, err := cmd.Output()
+		if err != nil {
+			if exerr, ok := err.(*exec.ExitError); ok {
+				fmt.Println("no wifi", exerr)
+				out = make([]byte, 0)
+			} else {
+				log.Fatal("You must install `iwgetid`", err)
+			}
+		}
+		ssid = strings.Replace(string(out), "\n", "", -1)
 	}
 
-	ssid := strings.Replace(string(out), "\n", "", -1)
 	fmt.Println("ssid", ssid)
 
 	// look at outside IP
