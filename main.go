@@ -101,7 +101,7 @@ func main() {
 		r, _ := regexp.Compile(" SSID: [a-zA-Z0-9-_]+")
 		ssid = r.FindString(string(out))[7:]
 	} else {
-		cmd := exec.Command("iwgetid", "-r")
+		cmd := exec.Command("/sbin/iwgetid", "-r")
 		out, err := cmd.Output()
 		if err != nil {
 			if exerr, ok := err.(*exec.ExitError); ok {
