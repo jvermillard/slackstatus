@@ -9,7 +9,7 @@ App written in go to set your slack status automatically depending on the SSID o
 
 # Usage
 
-To user `slackstatus` you need a slack API access token.
+To use `slackstatus` you need a slack API access token.
 You can get it from: https://api.slack.com/custom-integrations/legacy-tokens
 
 You also need a CSV file listing your known WiFi network names or the known outgoing IP and the corresponding status and emoji you want to associate to them.
